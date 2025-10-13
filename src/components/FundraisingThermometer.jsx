@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Heart} from 'lucide-react';
 import {useGoogleSheetsCell} from '../hooks/useGoogleSheets';
 
 export default function FundraisingThermometer() {
     const [animatedProgress, setAnimatedProgress] = useState(0);
+    const [showConfetti, setShowConfetti] = useState(false);
+    const confettiRef = useRef(null);
 
     // Google Sheets에서 현재 모금액 데이터 가져오기
     const {cellValue: currentAmountStr, loading, error} = useGoogleSheetsCell('A1', {
@@ -19,13 +21,67 @@ export default function FundraisingThermometer() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setAnimatedProgress(Math.min((currentAmount / targetAmount) * 100, 100));
+            const progress = Math.min((currentAmount / targetAmount) * 100, 100);
+            setAnimatedProgress(progress);
+
+            // 100% 이상일 때 컨페티 애니메이션 트리거
+            if (progress >= 100 && !showConfetti) {
+                setShowConfetti(true);
+                // 5초 후 컨페티 숨기기
+                setTimeout(() => setShowConfetti(false), 5000);
+            }
         }, 500);
         return () => clearTimeout(timer);
-    }, [targetProgress]);
+    }, [targetProgress, currentAmount, targetAmount, showConfetti]);
+
+    // 컨페티 애니메이션 컴포넌트
+    const ConfettiAnimation = () => {
+        if (!showConfetti) return null;
+
+        return (
+            <div className="fixed inset-0 pointer-events-none z-50" ref={confettiRef}>
+                {Array.from({length: 50}).map((_, i) => (
+                    <div
+                        key={i}
+                        className="absolute animate-bounce"
+                        style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            animationDelay: `${Math.random() * 2}s`,
+                            animationDuration: `${2 + Math.random() * 2}s`
+                        }}
+                    >
+                        <div
+                            className="w-2 h-3 "
+                            style={{
+                                backgroundColor: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'][Math.floor(Math.random() * 6)],
+                                animation: `confetti-fall ${2 + Math.random() * 3}s linear infinite`
+                            }}
+                        />
+                    </div>
+                ))}
+            </div>
+        );
+    };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
+        <>
+            <style>{`
+                @keyframes confetti-fall {
+                    0% {
+                        transform: translateY(-100vh) rotate(0deg);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translateY(100vh) rotate(720deg);
+                        opacity: 0;
+                    }
+                }
+            `}</style>
+
+            <ConfettiAnimation />
+
+            <div className="min-h-screen bg-gray-50 flex flex-col relative">
             {/* Header */}
             <div className="bg-white text-gray-800 py-3 px-6 text-center shadow-sm">
                 <p className="text-lg font-bold text-gray-800 mt-2">💌 from 청일.. to 시선..</p>
@@ -36,8 +92,15 @@ export default function FundraisingThermometer() {
                 <div className="w-full max-w-md">
                     {/* Goal Display */}
                     <div className="text-left mb-8">
-                        <div className="text-5xl font-light text-blue-600">
-                            {loading ? '...' : `${Math.round(targetProgress)}%`}
+                        <div className="flex items-center gap-3">
+                            <div className="text-5xl font-light text-blue-600">
+                                {loading ? '...' : `${Math.round(targetProgress)}%`}
+                            </div>
+                            {targetProgress >= 100 && (
+                                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold animate-pulse shadow-lg">
+                                    🎉 100% 달성 완료
+                                </div>
+                            )}
                         </div>
                         <div className="text-sm text-gray-500 mt-1">목표 달성률</div>
                     </div>
@@ -124,6 +187,7 @@ export default function FundraisingThermometer() {
                     </button>
                 </div>
             </div>
-        </div>
+            </div>
+        </>
     );
 }
