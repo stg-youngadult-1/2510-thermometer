@@ -55,7 +55,7 @@ export default function FundraisingThermometer() {
                             className="w-2 h-3 "
                             style={{
                                 backgroundColor: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'][Math.floor(Math.random() * 6)],
-                                animation: `confetti-fall ${2 + Math.random() * 3}s linear infinite`
+                                animation: `confetti-fall ${3 + Math.random() * 3}s linear infinite`
                             }}
                         />
                     </div>
@@ -73,7 +73,7 @@ export default function FundraisingThermometer() {
                         opacity: 1;
                     }
                     100% {
-                        transform: translateY(100vh) rotate(720deg);
+                        transform: translateY(100vh) translateX(${(Math.random() - 0.5) * 400}px)  rotate(720deg);
                         opacity: 0;
                     }
                 }
@@ -181,10 +181,14 @@ export default function FundraisingThermometer() {
             {/* Footer */}
             <div className="bg-white border-t border-gray-200 py-6 px-6">
                 <div className="max-w-md mx-auto space-y-4">
-                    <button
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-xl shadow-sm transition-colors">
+                    <a
+                        href="https://forms.gle/xHhUSMRquJbjHDZf7"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-xl shadow-sm transition-colors block text-center"
+                    >
                         지금 후원하기
-                    </button>
+                    </a>
                 </div>
             </div>
             </div>
