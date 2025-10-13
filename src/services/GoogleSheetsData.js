@@ -2,7 +2,6 @@
 
 import {SHEETS_CONFIG, DEFAULT_REQUEST_OPTIONS} from './sheetsConfig.js';
 import googleSheetsAuth from './GoogleSheetsAuth.js';
-import {getDataRows, getHeader, isEqualStatus} from "./model.js";
 
 /**
  * Google Sheets 데이터 조회를 담당하는 클래스
