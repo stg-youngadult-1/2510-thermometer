@@ -153,7 +153,7 @@ export default function FundraisingThermometer() {
                     <div className="mt-12 grid grid-cols-2 gap-4">
                         <div
                             className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center gap-4">
-                            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
                                 <Heart className="w-6 h-6 text-purple-600"/>
                             </div>
                             <div>
@@ -163,7 +163,7 @@ export default function FundraisingThermometer() {
                         </div>
                         <div
                             className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center gap-4">
-                            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                                 <Heart className="w-6 h-6 text-blue-600"/>
                             </div>
                             <div>
