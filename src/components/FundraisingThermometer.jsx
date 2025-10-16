@@ -16,7 +16,7 @@ export default function FundraisingThermometer() {
 
     // 문자열을 숫자로 변환 (쉼표 제거)
     const currentAmount = parseInt(currentAmountStr.replace(/[^0-9]/g, '') || '0', 10);
-    const targetAmount = 170000; // 목표 금액 100만원
+    const targetAmount = 400000; // 목표 금액 100만원
     const targetProgress = (currentAmount / targetAmount) * 100;
 
     useEffect(() => {
