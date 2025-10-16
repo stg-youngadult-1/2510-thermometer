@@ -158,7 +158,7 @@ export default function FundraisingThermometer() {
                             </div>
                             <div>
                                 <div className="text-xs text-gray-500">목표 금액</div>
-                                <div className="text-sm font-bold text-gray-800">170,000원</div>
+                                <div className="text-sm font-bold text-gray-800">400,000원</div>
                             </div>
                         </div>
                         <div
